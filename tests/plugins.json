@@ -1,0 +1,6 @@
+{
+  "zsh-users/zsh-autosuggestions": "85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5",
+  "zsh-users/zsh-history-substring-search": "a0bdb0d47dbaba31dba2db7af8c48a5d9c74049a",
+  "zsh-users/zsh-completions": "b5e8e0a22deb05a807bb8655aef809a29f3cffed",
+  "zdharma-continuum/zinit": "8682ebe560c5c88c0f30e266fc4a6770b06bba77"
+}

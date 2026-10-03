@@ -1,0 +1,4 @@
+/bin/
+/dist/
+/.cache/
+__pycache__/

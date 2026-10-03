@@ -1,0 +1,34 @@
+#compdef shistory
+local -a commands
+commands=(
+  'record:Store a completed execution event'
+  'list:List current scoped history'
+  'search:Search command text'
+  'suggest:Suggest a command with a literal prefix'
+  'navigate:Walk scoped history using row IDs'
+  'scope:Detect the current scope'
+  'doctor:Check database health'
+  'prune:Delete old history'
+  'delete:Delete a row or scope'
+  'vacuum:Reclaim database space'
+  'session:Generate a session ID'
+)
+if (( CURRENT == 2 )); then
+  _describe 'command' commands
+else
+  _arguments \
+    '--cwd[Directory]:directory:_files -/' \
+    '--scope[Scope path]:directory:_files -/' \
+    '--global[All scopes]' '--directory[Exact directory]' \
+    '--limit[Result limit]:number:' '--format[Output format]:format:(table json raw nul fzf)' \
+    '--prefix[Literal prefix]:prefix:' '--query[Substring query]:query:' \
+    '--before-id[Older than row]:id:' '--after-id[Newer than row]:id:' \
+    '--direction[Navigation direction]:direction:(older newer)' \
+    '--session[Session ID]:session:' '--seq[Sequence]:number:' \
+    '--shell[Shell name]:shell:(bash zsh)' '--command[Command text]:command:' \
+    '--started-at[Unix milliseconds]:number:' '--duration-ms[Duration]:number:' \
+    '--status[Exit status]:number:' '--hostname[Host]:host:' '--tty[Terminal]:tty:' \
+    '--failed[Failed commands only]' '--dedupe[Collapse adjacent duplicates]' \
+    '--id[Row ID]:id:' '--before[Unix millisecond cutoff]:number:' \
+    '--days[Retention days]:number:' '--json[JSON scope]' '--help[Usage]'
+fi

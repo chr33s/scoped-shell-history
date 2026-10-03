@@ -1,0 +1,36 @@
+[tools]
+go = "1.26.5"
+python = "3.14.7"
+fzf = "0.74.4"
+gh = "2.97.0"
+
+[env]
+CGO_ENABLED = "0"
+GOTOOLCHAIN = "local"
+GOCACHE = "{{config_root}}/.cache/go-build"
+
+[tasks.build]
+run = "go build -trimpath -o bin/shistory ./cmd/shistory"
+
+[tasks.test]
+run = "go test ./..."
+
+[tasks.shell-test]
+depends = ["build"]
+run = "python tests/shell_test.py"
+
+[tasks.check]
+run = "go vet ./..."
+
+[tasks.fetch-test-plugins]
+run = "python scripts/fetch-test-plugins.py"
+
+[tasks.compat-test]
+depends = ["build", "fetch-test-plugins"]
+run = "python tests/compat_test.py"
+
+[tasks.verify]
+depends = ["test", "check", "shell-test"]
+
+[tasks.release]
+run = "bash scripts/build-release.sh"
