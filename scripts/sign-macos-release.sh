@@ -41,7 +41,7 @@ xcrun notarytool store-credentials shistory-notary --keychain "$keychain" \
 for arch in arm64 amd64; do
   directory="dist/shistory-darwin-$arch"
   codesign --force --sign "$DEVELOPER_ID_APPLICATION" --keychain "$keychain" \
-    --identifier com.github.chr33s.scoped-shell-history.shistory \
+    --identifier com.github.chr33s.shistory \
     --timestamp --options runtime "$directory/shistory"
   codesign --verify --strict --verbose=2 "$directory/shistory"
   archive="$signing_temp/shistory-darwin-$arch.zip"

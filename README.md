@@ -24,15 +24,15 @@ Add `~/.local/bin` to `PATH`, then add one of these to your shell configuration:
 
 ```zsh
 # ~/.zshrc
-source /path/to/scoped-shell-history/shistory.plugin.zsh
+source /path/to/shistory/shistory.plugin.zsh
 ```
 
 ```bash
 # ~/.bashrc
-source /path/to/scoped-shell-history/shell/shistory.bash
+source /path/to/shistory/shell/shistory.bash
 ```
 
-Prebuilt archives are available on [GitHub Releases](https://github.com/chr33s/scoped-shell-history/releases).
+Prebuilt archives are available on [GitHub Releases](https://github.com/chr33s/shistory/releases).
 Each push to `main` publishes a release tagged `main-<full-commit-SHA>` after the
 Linux and macOS checks pass. Archives cover macOS and Linux on ARM64 and AMD64,
 and include the binary, shell adapters, completions, README, and license.
@@ -164,7 +164,7 @@ autoload -Uz compinit
 compinit
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-history-substring-search
-zinit light chr33s/scoped-shell-history
+zinit light chr33s/shistory
 zicdreplay # apply completion registrations captured by Zinit
 
 # Opt in to scoped suggestions. A scope cache refreshes at startup and chpwd.

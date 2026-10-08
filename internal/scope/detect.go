@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chr33s/scoped-shell-history/internal/config"
+	"github.com/chr33s/shistory/internal/config"
 )
 
 type Scope struct {

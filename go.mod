@@ -1,4 +1,4 @@
-module github.com/chr33s/scoped-shell-history
+module github.com/chr33s/shistory
 
 go 1.26.5
 

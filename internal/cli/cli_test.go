@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/chr33s/scoped-shell-history/internal/history"
+	"github.com/chr33s/shistory/internal/history"
 )
 
 func setup(t *testing.T) string {

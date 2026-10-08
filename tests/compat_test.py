@@ -24,7 +24,7 @@ class CompatibilityTests(unittest.TestCase):
             plugins.mkdir(parents=True)
             for repo in repos:
                 (plugins / repo.replace("/", "---")).symlink_to(fixtures / repo.replace("/", "---"))
-            (plugins / "chr33s---scoped-shell-history").symlink_to(ROOT)
+            (plugins / "chr33s---shistory").symlink_to(ROOT)
             for name in ("project/api", "project/web", "other", "outside"):
                 (home / name).mkdir(parents=True)
             for name in ("project", "other"):
@@ -57,7 +57,7 @@ autoload -Uz compinit
 compinit -D -i
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-history-substring-search
-zinit light chr33s/scoped-shell-history
+zinit light chr33s/shistory
 zicdreplay
 ZSH_AUTOSUGGEST_STRATEGY=(shistory completion)
 ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(_compat_dump)

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/chr33s/scoped-shell-history/internal/config"
-	"github.com/chr33s/scoped-shell-history/internal/db"
-	"github.com/chr33s/scoped-shell-history/internal/scope"
+	"github.com/chr33s/shistory/internal/config"
+	"github.com/chr33s/shistory/internal/db"
+	"github.com/chr33s/shistory/internal/scope"
 )
 
 type Event struct {

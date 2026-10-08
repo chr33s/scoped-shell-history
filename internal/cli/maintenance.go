@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/chr33s/scoped-shell-history/internal/config"
-	"github.com/chr33s/scoped-shell-history/internal/db"
-	"github.com/chr33s/scoped-shell-history/internal/scope"
+	"github.com/chr33s/shistory/internal/config"
+	"github.com/chr33s/shistory/internal/db"
+	"github.com/chr33s/shistory/internal/scope"
 )
 
 func maintenanceFlags(fs *flag.FlagSet, c config.Config, name string, out io.Writer) func(*db.Store) error {

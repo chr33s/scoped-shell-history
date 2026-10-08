@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/chr33s/scoped-shell-history/internal/cli"
+	"github.com/chr33s/shistory/internal/cli"
 )
 
 func main() {

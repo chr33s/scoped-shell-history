@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/chr33s/scoped-shell-history/internal/config"
+	"github.com/chr33s/shistory/internal/config"
 )
 
 func TestDetection(t *testing.T) {

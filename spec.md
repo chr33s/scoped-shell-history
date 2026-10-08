@@ -1,4 +1,4 @@
-# Scoped Shell History Plugin — Sketch
+# shistory — Sketch
 
 ## Goal
 
@@ -17,11 +17,9 @@ The core UX should feel like normal shell history, while allowing fast queries s
 
 ---
 
-## Proposed name
+## Name
 
-`shistory` or `scopehist`
-
-Examples below use `shistory`.
+`shistory`
 
 ---
 

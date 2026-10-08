@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/chr33s/scoped-shell-history/internal/config"
-	"github.com/chr33s/scoped-shell-history/internal/db"
-	"github.com/chr33s/scoped-shell-history/internal/history"
-	"github.com/chr33s/scoped-shell-history/internal/scope"
-	"github.com/chr33s/scoped-shell-history/internal/session"
+	"github.com/chr33s/shistory/internal/config"
+	"github.com/chr33s/shistory/internal/db"
+	"github.com/chr33s/shistory/internal/history"
+	"github.com/chr33s/shistory/internal/scope"
+	"github.com/chr33s/shistory/internal/session"
 )
 
 const help = `shistory — SQLite history scoped to a project or directory
