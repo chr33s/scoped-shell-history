@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 for variable in DEVELOPER_ID_CERTIFICATE_BASE64 DEVELOPER_ID_CERTIFICATE_PASSWORD \
-  DEVELOPER_ID_APPLICATION KEYCHAIN_PASSWORD APPLE_ID APPLE_TEAM_ID APPLE_APP_SPECIFIC_PASSWORD; do
+  DEVELOPER_ID_APPLICATION APPLE_ID APPLE_TEAM_ID APPLE_APP_SPECIFIC_PASSWORD; do
   if [[ -z "${!variable:-}" ]]; then
     printf 'Missing required signing secret: %s\n' "$variable" >&2
     exit 1
@@ -17,9 +17,20 @@ if [[ "$DEVELOPER_ID_APPLICATION" != 'Developer ID Application: '* ]]; then
 fi
 
 umask 077
+keychain_password=$(openssl rand -hex 32)
+# Preserve the search list, including paths containing spaces. codesign consults
+# it for the certificate chain even when --keychain selects the identity.
+original_keychains=()
+search_list=$(security list-keychains -d user)
+while IFS= read -r entry; do
+  entry="${entry#*\"}"
+  entry="${entry%\"*}"
+  [[ -z "$entry" ]] || original_keychains+=("$entry")
+done <<< "$search_list"
 signing_temp=$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/shistory-signing.XXXXXX")
 keychain="$signing_temp/signing.keychain-db"
 cleanup() {
+  security list-keychains -d user -s "${original_keychains[@]}" >/dev/null 2>&1 || true
   security delete-keychain "$keychain" >/dev/null 2>&1 || true
   rm -rf "$signing_temp"
 }
@@ -28,13 +39,21 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 
 printf '%s' "$DEVELOPER_ID_CERTIFICATE_BASE64" | base64 --decode > "$signing_temp/certificate.p12"
-security create-keychain -p "$KEYCHAIN_PASSWORD" "$keychain"
+security create-keychain -p "$keychain_password" "$keychain"
 security set-keychain-settings -lut 21600 "$keychain"
-security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$keychain"
+security unlock-keychain -p "$keychain_password" "$keychain"
+security list-keychains -d user -s "$keychain" "${original_keychains[@]}"
 security import "$signing_temp/certificate.p12" -k "$keychain" \
-  -P "$DEVELOPER_ID_CERTIFICATE_PASSWORD" -t cert -f pkcs12 -T /usr/bin/codesign -T /usr/bin/security
-security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$keychain" >/dev/null
+  -P "$DEVELOPER_ID_CERTIFICATE_PASSWORD" -f pkcs12 -T /usr/bin/codesign -T /usr/bin/security
+security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" "$keychain" >/dev/null
 rm "$signing_temp/certificate.p12"
+identities=$(security find-identity -v -p codesigning "$keychain")
+if ! printf '%s\n' "$identities" | grep -Fq "\"$DEVELOPER_ID_APPLICATION\""; then
+  printf 'The imported PKCS#12 has no valid signing identity matching DEVELOPER_ID_APPLICATION.\n' >&2
+  printf 'Check that it contains the Developer ID Application certificate and matching private key, and that its certificate chain is trusted.\n' >&2
+  printf '%s\n' "$identities" >&2
+  exit 1
+fi
 xcrun notarytool store-credentials shistory-notary --keychain "$keychain" \
   --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD"
 

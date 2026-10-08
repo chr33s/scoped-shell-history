@@ -59,13 +59,12 @@ Add these repository secrets under **Settings → Secrets and variables → Acti
 | `DEVELOPER_ID_CERTIFICATE_BASE64` | Base64 of a Developer ID Application `.p12` export including its private key. |
 | `DEVELOPER_ID_CERTIFICATE_PASSWORD` | Password protecting that `.p12` export. |
 | `DEVELOPER_ID_APPLICATION` | Full signing identity: `Developer ID Application: Your Name (TEAMID)`. |
-| `KEYCHAIN_PASSWORD` | A random password for the temporary CI keychain. |
 | `APPLE_ID` | Apple developer account email used for notarization. |
 | `APPLE_TEAM_ID` | Developer team ID matching the signing certificate. |
 | `APPLE_APP_SPECIFIC_PASSWORD` | App-specific Apple account password for notarization. |
 
 On macOS, `base64 -i DeveloperIDApplication.p12 | pbcopy` prepares the certificate
-secret. CI creates a temporary keychain and removes it and the certificate export
+secret. CI generates a random password for a temporary keychain and removes the keychain and certificate export
 when signing finishes or fails. Missing secrets or failed notarization prevent
 publication; PR checks do not use these secrets.
 
